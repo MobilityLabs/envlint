@@ -12,6 +12,7 @@
     "@oclif/config": "^1",
     "@oclif/plugin-help": "^2",
     "dotenv": "^6.1.0",
+    "prettier": "^1.14.3",
     "tslib": "^1"
   },
   "devDependencies": {
@@ -46,7 +47,7 @@
   },
   "repository": "mobilitylabs/envlint",
   "scripts": {
-    "posttest": "tslint -p test -t stylish --fix",
+    "posttest": "tslint -p test -t stylish",
     "prepack": "rm -rf lib && tsc -b",
     "test": "nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\""
   },

@@ -71,13 +71,15 @@ class Envlint extends Command {
       // Check lengths
       if (req.length) {
         const lengths = req.length.split('-')
-        let length, minLength, maxLength
+        let length
+        let minLength
+        let maxLength
         if (lengths.length === 1) {
-          length = parseInt(lengths[0])
+          length = parseInt(lengths[0], 10)
         }
         if (lengths.length === 2) {
-          minLength = parseInt(lengths[0])
-          maxLength = parseInt(lengths[1])
+          minLength = parseInt(lengths[0], 10)
+          maxLength = parseInt(lengths[1], 10)
         }
         if (length && value.length !== length) {
           errors.push(`.env key, ${k} is not equal to the length, ${length}`)
@@ -99,28 +101,28 @@ class Envlint extends Command {
         switch (req.type) {
         case 'boolean':
         case 'BOOLEAN': {
-            if (!isBoolean(value)) {
-              errors.push(`.env key, ${k} is not a boolean`)
-            }
-            break
+          if (!isBoolean(value)) {
+            errors.push(`.env key, ${k} is not a boolean`)
           }
+          break
+        }
         case 'number':
         case 'NUMBER': {
-            if (!isNumber(value)) {
-              errors.push(`.env key, ${k} is not a number`)
-            }
-            break
+          if (!isNumber(value)) {
+            errors.push(`.env key, ${k} is not a number`)
           }
+          break
+        }
         case 'string':
         case 'STRING': {
-            if (isNumber(value) || isBoolean(value)) {
-              errors.push(`.env key, ${k} is not a string`)
-            }
-            break
+          if (isNumber(value) || isBoolean(value)) {
+            errors.push(`.env key, ${k} is not a string`)
           }
+          break
+        }
         default: {
-            errors.push('Unrecognized type')
-          }
+          errors.push('Unrecognized type')
+        }
         }
       }
     })

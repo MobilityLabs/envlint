@@ -1,0 +1,54 @@
+{
+  "name": "envlint",
+  "description": "Lint your env files with ease",
+  "version": "0.0.1",
+  "author": "Sean Perkins",
+  "bin": {
+    "envlint": "./bin/run"
+  },
+  "bugs": "https://github.com/mobilitylabs/envlint/issues",
+  "dependencies": {
+    "@oclif/command": "^1",
+    "@oclif/config": "^1",
+    "@oclif/plugin-help": "^2",
+    "dotenv": "^6.1.0",
+    "tslib": "^1"
+  },
+  "devDependencies": {
+    "@oclif/test": "^1",
+    "@oclif/tslint": "^3",
+    "@types/chai": "^4",
+    "@types/mocha": "^5",
+    "@types/node": "^10.11.7",
+    "chai": "^4",
+    "mocha": "^5",
+    "nyc": "^13",
+    "ts-node": "^7",
+    "tslint": "^5",
+    "typescript": "^3.0"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "files": [
+    "/bin",
+    "/lib"
+  ],
+  "homepage": "https://github.com/mobilitylabs/envlint",
+  "keywords": [
+    "env",
+    "linter"
+  ],
+  "license": "MIT",
+  "main": "lib/index.js",
+  "oclif": {
+    "bin": "envlint"
+  },
+  "repository": "mobilitylabs/envlint",
+  "scripts": {
+    "posttest": "tslint -p test -t stylish",
+    "prepack": "rm -rf lib && tsc -b",
+    "test": "nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\""
+  },
+  "types": "lib/index.d.ts"
+}

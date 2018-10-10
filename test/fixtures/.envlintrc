@@ -16,7 +16,7 @@
     "required": true
   },
   "BOOLEAN_SUCCESS": {
-    "type": "BOOLEAN",
+    "type": "BOOLEAN"
   },
   "REQUIRED_MISSING": {
     "required": true

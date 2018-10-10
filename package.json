@@ -12,7 +12,8 @@
     "@oclif/config": "^1",
     "@oclif/plugin-help": "^2",
     "dotenv": "^6.1.0",
-    "prettier": "^1.14.3",
+    "husky": "^1.1.1",
+    "lint-staged": "^7.3.0",
     "tslib": "^1"
   },
   "devDependencies": {
@@ -24,6 +25,7 @@
     "chai": "^4",
     "mocha": "^5",
     "nyc": "^13",
+    "prettier": "^1.14.3",
     "ts-node": "^7",
     "tslint": "^5",
     "typescript": "^3.0"
@@ -50,6 +52,17 @@
     "posttest": "tslint -p test -t stylish",
     "prepack": "rm -rf lib && tsc -b",
     "test": "nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\""
+  },
+  "lint-staged": {
+    "src/**/*.js": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   },
   "types": "lib/index.d.ts"
 }

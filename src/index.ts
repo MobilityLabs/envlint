@@ -2,7 +2,7 @@ import { Command, flags } from "@oclif/command";
 import * as fs from "fs";
 import * as path from "path";
 
-import { isBoolean, isNumber } from "./lib/checkTypes";
+import { isBoolean, isNumber } from "./helpers/checkTypes";
 
 class Envlint extends Command {
   static description = "Run envlint on your .env";

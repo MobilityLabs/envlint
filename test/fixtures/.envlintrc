@@ -1,24 +1,5 @@
-{
-  "NUMBER_SUCCESS": {
-    "required": true,
-    "type": "number"
-  },
-  "NUMBER_TOO_LONG": {
-    "required": true,
-    "type": "number",
-    "length": "1-5"
-  },
-  "STRING_SUCCESS": {
-    "type": "string"
-  },
-  "STRING_WRONG_TYPE": {
-    "type": "number",
-    "required": true
-  },
-  "BOOLEAN_SUCCESS": {
-    "type": "BOOLEAN"
-  },
-  "REQUIRED_MISSING": {
-    "required": true
-  }
-}
+# required, number
+NUMBER_SUCCESS
+
+# length=1-4, string, required
+STRING_IS_BEST

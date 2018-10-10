@@ -3,6 +3,7 @@ import * as fs from 'fs'
 import * as path from 'path'
 
 import {isBoolean, isNumber} from './helpers/check-types'
+import parse from './helpers/parse-files'
 
 class Envlint extends Command {
   static description = 'Run envlint on your .env'
@@ -53,7 +54,7 @@ class Envlint extends Command {
     // TODO: Parse it with something loosey goosey like:
     // JSOL so we don't have to double quote things
     this.log(configFileContent)
-    const exampleEnv = JSON.parse(configFileContent)
+    const exampleEnv = parse(configFileContent)
     const errors: string[] = []
     const foundKeys: string[] = []
     // Walk through each item in .env, check it against example

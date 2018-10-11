@@ -33,7 +33,8 @@ We don't currently recommend using envlint globally.
 
 ## Configuration
 
-Your config file should look something like this if you are using JSON format:
+Your config file should look something like these below.
+JSON Format
 
 ```
 {
@@ -47,6 +48,16 @@ Your config file should look something like this if you are using JSON format:
     "length": "8-12"
 }
 ```
+
+Comment format
+
+```
+# required, number
+FEATURE_FLAG=
+# required, string, length=8-12
+COOKIE_SECRET
+```
+
 
 Each key in your .env can include the following fields:
 

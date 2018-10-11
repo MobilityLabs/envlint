@@ -1,8 +1,8 @@
-import {Command, flags} from '@oclif/command'
+import { Command, flags } from '@oclif/command'
 import * as fs from 'fs'
 import * as path from 'path'
 
-import {isBoolean, isNumber} from './helpers/check-types'
+import { isBoolean, isNumber } from './helpers/check-types'
 import parse from './helpers/parse-files'
 
 class Envlint extends Command {
@@ -10,18 +10,18 @@ class Envlint extends Command {
 
   static flags = {
     // add --version flag to show CLI version
-    version: flags.version({char: 'v'}),
-    help: flags.help({char: 'h'}),
+    version: flags.version({ char: 'v' }),
+    help: flags.help({ char: 'h' }),
     config: flags.string({
       char: 'c',
-      description: 'Your config file. Default is: .envlintrc'
-    })
+      description: 'Your config file. Default is: .envlintrc',
+    }),
   }
 
-  static args = [{name: 'envFile'}]
+  static args = [{ name: 'envFile' }]
 
   async run() {
-    const {args, flags} = this.parse(Envlint)
+    const { args, flags } = this.parse(Envlint)
 
     const appDir = fs.realpathSync(process.cwd())
     const resolveApp = (relPath: string) => path.resolve(appDir, relPath)
@@ -32,7 +32,7 @@ class Envlint extends Command {
       : resolveApp('.env') // Defaulted to .env
     // Grab .env
     if (!fs.existsSync(dotenvFile)) {
-      this.error(`No .env found at ${dotenvFile}`, {exit: 1})
+      this.error(`No .env found at ${dotenvFile}`, { exit: 1 })
     }
 
     const dotenv = require('dotenv')
@@ -46,14 +46,13 @@ class Envlint extends Command {
     }
     const configFile = resolveApp(config)
     if (!fs.existsSync(configFile)) {
-      this.error(`Missing .envlintrc file at ${configFile}`, {exit: 1})
+      this.error(`Missing config file at ${configFile}`, { exit: 1 })
     }
 
     const configFileContent = fs.readFileSync(configFile, 'utf8')
 
     // TODO: Parse it with something loosey goosey like:
     // JSOL so we don't have to double quote things
-    this.log(configFileContent)
     const exampleEnv = parse(configFileContent)
     const errors: string[] = []
     const foundKeys: string[] = []
@@ -64,7 +63,7 @@ class Envlint extends Command {
       const req = exampleEnv[k]
       if (!req) {
         errors.push(
-          `.env contains a key, ${k} not in the .envlintrc.
+          `.env contains a key, ${k} not in ${config}.
           You can add it by excluding required ${k}: {type: 'BOOLEAN'}`
         )
         return
@@ -100,30 +99,30 @@ class Envlint extends Command {
       // Check types
       if (req.type) {
         switch (req.type) {
-        case 'boolean':
-        case 'BOOLEAN': {
-          if (!isBoolean(value)) {
-            errors.push(`.env key, ${k} is not a boolean`)
+          case 'boolean':
+          case 'BOOLEAN': {
+            if (!isBoolean(value)) {
+              errors.push(`.env key, ${k} is not a boolean`)
+            }
+            break
           }
-          break
-        }
-        case 'number':
-        case 'NUMBER': {
-          if (!isNumber(value)) {
-            errors.push(`.env key, ${k} is not a number`)
+          case 'number':
+          case 'NUMBER': {
+            if (!isNumber(value)) {
+              errors.push(`.env key, ${k} is not a number`)
+            }
+            break
           }
-          break
-        }
-        case 'string':
-        case 'STRING': {
-          if (isNumber(value) || isBoolean(value)) {
-            errors.push(`.env key, ${k} is not a string`)
+          case 'string':
+          case 'STRING': {
+            if (isNumber(value) || isBoolean(value)) {
+              errors.push(`.env key, ${k} is not a string`)
+            }
+            break
           }
-          break
-        }
-        default: {
-          errors.push('Unrecognized type')
-        }
+          default: {
+            errors.push('Unrecognized type')
+          }
         }
       }
     })

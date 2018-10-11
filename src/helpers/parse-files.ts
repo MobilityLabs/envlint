@@ -1,4 +1,6 @@
-const parse = (contentString: string) => {
+import { ConfigObject, ParamObject, ParamTypes } from '../types'
+
+const parse = (contentString: string): ConfigObject => {
   let json
   try {
     json = JSON.parse(contentString)
@@ -9,19 +11,6 @@ const parse = (contentString: string) => {
 }
 
 export default parse
-
-interface ConfigObject {
-  [key: string]: ParamObject
-}
-
-interface ParamObject {
-  required?: boolean
-  type?: ParamTypes
-  length?: string
-  default?: string
-}
-
-type ParamTypes = 'number' | 'string' | 'boolean'
 
 const parseYAML = (contentString: string) => {
   const configObject: ConfigObject = {}
@@ -44,15 +33,16 @@ const parseYAML = (contentString: string) => {
       return
     }
     // Variable line
-    const varArr = line.match(/^([\w.-]+)(=)?([\w.-]+)?/)
+    const matchArray = line.match(/^([\w.-]+)(?:=)?([\w.-]+)?/)
+    // [match, key, variable, index, line]
     // No match
-    if (varArr == null) {
+    if (matchArray == null) {
       return
     }
-    const key = varArr[0]
+    const key = matchArray[1]
     const paramObj: ParamObject = {}
 
-    const defaultVal = varArr[2] || null
+    const defaultVal = matchArray[2] || null
     if (defaultVal) {
       paramObj.default = defaultVal
     }
@@ -75,7 +65,7 @@ const parseYAML = (contentString: string) => {
       }
     })
     configObject[key] = paramObj
+    cachedParams = [] //reset cached params
   })
-  cachedParams = [] //reset cached params
   return configObject
 }

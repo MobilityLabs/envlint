@@ -50,7 +50,7 @@
   },
   "repository": "mobilitylabs/envlint",
   "scripts": {
-    "posttest": "tslint -p test -t stylish",
+    "posttest": "tslint -p test -t stylish --fix",
     "prepack": "rm -rf lib && tsc -b",
     "test": "nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\""
   },

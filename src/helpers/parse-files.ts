@@ -5,14 +5,18 @@ const parse = (contentString: string): ConfigObject => {
   try {
     json = JSON.parse(contentString)
   } catch (err) {
-    json = parseYAML(contentString)
+    if (err instanceof SyntaxError) {
+      json = parseExample(contentString)
+    } else {
+      return err
+    }
   }
   return json
 }
 
 export default parse
 
-const parseYAML = (contentString: string) => {
+const parseExample = (contentString: string) => {
   const configObject: ConfigObject = {}
   let cachedParams: string[] = [] // We need this to be able to build object
   contentString.split('\n').forEach(line => {
@@ -36,7 +40,7 @@ const parseYAML = (contentString: string) => {
     const matchArray = line.match(/^([\w.-]+)(?:=)?([\w.-]+)?/)
     // [match, key, variable, index, line]
     // No match
-    if (matchArray == null) {
+    if (matchArray === null) {
       return
     }
     const key = matchArray[1]
@@ -60,7 +64,6 @@ const parseYAML = (contentString: string) => {
         case p.match(/length/) !== null: {
           const length = p.split('=')
           paramObj.length = length[1]
-          break
         }
       }
     })

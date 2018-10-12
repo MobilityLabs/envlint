@@ -52,6 +52,3 @@ workflows:
       - deploy:
           requires:
             - test
-          filters:
-            branches:
-              ignore: /.*/

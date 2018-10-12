@@ -1,4 +1,4 @@
-import { ConfigObject, ParamObject, ParamTypes } from '../types'
+import {ConfigObject, ParamObject, ParamTypes} from '../types'
 
 const parse = (contentString: string): ConfigObject => {
   let json

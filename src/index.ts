@@ -4,6 +4,7 @@ import * as path from 'path'
 
 import {isBoolean, isNumber} from './helpers/check-types'
 import parse from './helpers/parse-files'
+import {ConfigObject} from './types'
 
 class Envlint extends Command {
   static description = 'Run envlint on your .env'
@@ -16,12 +17,19 @@ class Envlint extends Command {
       char: 'c',
       description: 'Your config file. Default is: .envlintrc',
     }),
+    silence: flags.boolean({
+      char: 's',
+      description:
+        'Do not display lint errors in console. Still exits with 1 or 2 on errors.',
+    }),
   }
 
   static args = [{name: 'envFile'}]
 
   async run() {
     const {args, flags} = this.parse(Envlint)
+
+    const silence = flags.silence ? true : false
 
     const appDir = fs.realpathSync(process.cwd())
     const resolveApp = (relPath: string) => path.resolve(appDir, relPath)
@@ -53,9 +61,11 @@ class Envlint extends Command {
 
     // TODO: Parse it with something loosey goosey like:
     // JSOL so we don't have to double quote things
-    const exampleEnv = parse(configFileContent)
-    if (exampleEnv instanceof Error) {
-      this.error(exampleEnv)
+    let exampleEnv: ConfigObject = {}
+    try {
+      exampleEnv = parse(configFileContent)
+    } catch (err) {
+      this.error(err.message, {exit: 1})
     }
     const errors: string[] = []
     const foundKeys: string[] = []
@@ -145,9 +155,11 @@ class Envlint extends Command {
 
     // Display errors and exit with error
     if (errors.length > 0) {
-      errors.forEach(err => {
-        this.warn(err)
-      })
+      if (!silence) {
+        errors.forEach(err => {
+          this.warn(err)
+        })
+      }
       this.exit(2)
     }
 

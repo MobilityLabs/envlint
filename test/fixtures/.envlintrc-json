@@ -6,19 +6,20 @@
   "NUMBER_TOO_LONG": {
     "required": true,
     "type": "number",
-    "length": "1-5"
+    "length": "5-7"
   },
   "STRING_SUCCESS": {
     "type": "string"
   },
   "STRING_WRONG_TYPE": {
-    "type": "number",
+    "type": "boolean",
     "required": true
   },
   "BOOLEAN_SUCCESS": {
     "type": "BOOLEAN"
   },
   "REQUIRED_MISSING": {
-    "required": true
+  },
+  "BOOLEAN_NOT_INCLUDED": {
   }
 }

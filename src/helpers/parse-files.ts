@@ -8,7 +8,7 @@ const parse = (contentString: string): ConfigObject => {
     if (err instanceof SyntaxError) {
       json = parseExample(contentString)
     } else {
-      return err
+      throw new Error(err.message)
     }
   }
   return json
@@ -19,7 +19,7 @@ export default parse
 const parseExample = (contentString: string) => {
   const configObject: ConfigObject = {}
   let cachedParams: string[] = [] // We need this to be able to build object
-  contentString.split('\n').forEach(line => {
+  contentString.split('\n').forEach((line, index) => {
     // Is this an empty line
     if (line.match(/^\n/)) {
       return
@@ -36,8 +36,17 @@ const parseExample = (contentString: string) => {
         })
       return
     }
+    // We already checked for empty line and comment. If this line has spaces but isn't a comment
+    // it must be a mistake
+    if (line.match(/\s/)) {
+      throw SyntaxError(
+        `Improperly formatted comment in config file on line ${index + 1}`
+      )
+    }
     // Variable line
-    const matchArray = line.match(/^([\w.-]+)(?:=)?([\w.-]+)?/)
+    // Trying to match shell standards for env vars
+    // https://stackoverflow.com/questions/2821043/allowed-characters-in-linux-environment-variable-names
+    const matchArray = line.match(/^([a-zA-Z_][a-zA-Z0-9_]*)(?:=)?([\w.]+)?/)
     // [match, key, variable, index, line]
     // No match
     if (matchArray === null) {
@@ -67,8 +76,14 @@ const parseExample = (contentString: string) => {
         }
       }
     })
-    configObject[key] = paramObj
+    // Do not add a param obj if we do not have a key
+    if (key) {
+      configObject[key] = paramObj
+    }
     cachedParams = [] //reset cached params
   })
+  if (Object.keys(configObject).length === 0) {
+    throw new SyntaxError('Config file has no settings')
+  }
   return configObject
 }

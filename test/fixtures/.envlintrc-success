@@ -1,0 +1,16 @@
+# required, number
+NUMBER_SUCCESS=
+# required, number, length=6
+NUMBER_LONG=
+
+# required, string
+STRING_SUCCESS=
+# string
+STRING_NOT_REQUIRED=
+
+# required, boolean
+BOOLEAN_SUCCESS='true'
+# required, boolean
+BOOLEAN_CAPITALIZED=
+# boolean
+BOOLEAN_ABBREVIATED=

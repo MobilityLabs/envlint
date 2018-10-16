@@ -1,6 +1,7 @@
 # envlint
 
 Lint your env files with ease
+
 [![CircleCI](https://circleci.com/gh/MobilityLabs/envlint/tree/master.svg?style=svg)](https://circleci.com/gh/MobilityLabs/envlint/tree/master)
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
 [![Version](https://img.shields.io/npm/v/envlint.svg)](https://npmjs.org/package/envlint)
@@ -23,9 +24,9 @@ If you want to include ENVLint as part of your project's build system, we recomm
 
 You should then setup a configuration file using the format below. You can name it anything but we recommend .envlintrc
 
-After that, you can run ENVLint on any file or directory like this:
+After that, you can run ENVLint on any file like this:
 
-`$ ./node_modules/.bin/envlint yourfile.js`
+`$ ./node_modules/.bin/envlint your_env_file`
 
 ## Global Installation and Usage
 
